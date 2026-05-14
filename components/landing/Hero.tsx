@@ -3,17 +3,17 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { Calendar, Phone, Heart, Award } from 'lucide-react';
 
-const fadeLeft = {
+const fadeLeft: Variants = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' as const } },
 };
 
-const fadeRight = {
+const fadeRight: Variants = {
   hidden: { opacity: 0, scale: 0.95 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.8, delay: 0.2, ease: 'easeOut' } },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.8, delay: 0.2, ease: 'easeOut' as const } },
 };
 
 /* ── reusable button styles ── */

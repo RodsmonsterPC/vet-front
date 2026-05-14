@@ -1,26 +1,301 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   PetCare Editorial Organicism – Design System
+   Tailwind v4 compatible: @theme + @layer utilities/components
+   ============================================================ */
+
+@theme {
+  /* --- Brand Colors --- */
+  --color-primary:            #006094;
+  --color-primary-light:      #67bafd;
+  --color-primary-container:  #cce8ff;
+  --color-on-primary:         #ffffff;
+
+  --color-secondary:           #006b1b;
+  --color-secondary-light:     #7ddb8c;
+  --color-secondary-container: #b8f5b9;
+  --color-on-secondary:        #ffffff;
+
+  --color-tertiary:            #6d5a00;
+  --color-tertiary-container:  #fdeea4;
+
+  /* --- Surfaces --- */
+  --color-surface:             #f4f7f5;
+  --color-surface-low:         #eef2ef;
+  --color-surface-lowest:      #ffffff;
+  --color-surface-high:        #e1e8e3;
+  --color-surface-highest:     #d4ddd7;
+  --color-on-surface:          #2b2f2e;
+  --color-on-surface-variant:  #4a5550;
+  --color-outline-variant:     rgba(74, 85, 80, 0.15);
+
+  /* --- Typography --- */
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* --- Radius --- */
+  --radius-sm:   0.5rem;
+  --radius-md:   1rem;
+  --radius-lg:   1.5rem;
+  --radius-xl:   2rem;
+  --radius-2xl:  3rem;
+  --radius-full: 9999px;
+
+  /* --- Shadows --- */
+  --shadow-ambient: 0 4px 20px rgba(0, 96, 148, 0.06);
+  --shadow-float:   0 20px 40px rgba(0, 96, 148, 0.12);
+  --shadow-card:    0 8px 32px rgba(0, 96, 148, 0.07);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ============================================================
+   Base resets
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-jakarta, var(--font-sans));
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   Custom scrollbar
+   ============================================================ */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-surface-low); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-light);
+  border-radius: 999px;
+}
+
+/* ============================================================
+   Keyframes
+   ============================================================ */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-12px) rotate(8deg); }
+}
+
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-8px) rotate(-5deg); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ============================================================
+   Component layer – Tailwind v4
+   All custom classes MUST be inside @layer so they are kept.
+   ============================================================ */
+@layer components {
+
+  /* ---- Typography scale ---- */
+  .display-lg {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    font-family: var(--font-jakarta, var(--font-sans));
+  }
+
+  .display-md {
+    font-size: 2.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    font-family: var(--font-jakarta, var(--font-sans));
+  }
+
+  .display-sm {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    font-family: var(--font-jakarta, var(--font-sans));
+  }
+
+  .headline-lg {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    font-family: var(--font-jakarta, var(--font-sans));
+  }
+
+  .headline-md {
+    font-size: 1.375rem;
+    font-weight: 600;
+    font-family: var(--font-jakarta, var(--font-sans));
+  }
+
+  .body-lg {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    font-family: var(--font-jakarta, var(--font-sans));
+  }
+
+  .label-sm {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: var(--font-jakarta, var(--font-sans));
+  }
+
+  /* ---- Glassmorphism ---- */
+  .glass {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .glass-dark {
+    background: rgba(0, 96, 148, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  /* ---- Shadow helpers ---- */
+  .shadow-petcare {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-float {
+    box-shadow: var(--shadow-float);
+  }
+
+  /* ---- Gradient helpers ---- */
+  .gradient-primary {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, #006094 0%, #0080c8 50%, #67bafd 100%);
+  }
+
+  .gradient-secondary {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
+  }
+
+  /* ---- Asymmetric "organic" card corners ---- */
+  .card-organic {
+    border-radius: var(--radius-2xl) var(--radius-md) var(--radius-2xl) var(--radius-md);
+  }
+
+  /* ---- Surface helpers ---- */
+  .surface         { background-color: var(--color-surface); }
+  .surface-low     { background-color: var(--color-surface-low); }
+  .surface-lowest  { background-color: var(--color-surface-lowest); }
+
+  /* ---- Animations ---- */
+  .animate-float          { animation: float 4s ease-in-out infinite; }
+  .animate-float-delayed  { animation: float-delayed 5s ease-in-out 1s infinite; }
+  .animate-pulse-soft     { animation: pulse-soft 3s ease-in-out infinite; }
+
+  /* ---- Section fade-in (JS triggered) ---- */
+  .section-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .section-fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- Skeleton loader ---- */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-surface-low) 25%,
+      var(--color-surface-high) 50%,
+      var(--color-surface-low) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius-md);
+  }
+
+  /* ---- Input base ---- */
+  .input-petcare {
+    background: var(--color-surface-lowest);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    font-family: var(--font-jakarta, var(--font-sans));
+    font-size: 1rem;
+    color: var(--color-on-surface);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    width: 100%;
+  }
+  .input-petcare:focus {
+    border-color: rgba(0, 96, 148, 0.4);
+    box-shadow: 0 0 0 4px rgba(0, 96, 148, 0.08);
+  }
+
+  /* ---- Button base classes (used by Button.tsx via Tailwind) ---- */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #006094 0%, #67bafd 100%);
+    color: white;
+    padding: 0.875rem 2rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 96, 148, 0.3);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-surface-highest);
+    color: var(--color-on-surface);
+    padding: 0.875rem 2rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+    background: var(--color-surface-high);
+  }
+
+  /* ---- Responsive typography ---- */
+  @media (max-width: 768px) {
+    .display-lg { font-size: 2.5rem; }
+    .display-md { font-size: 2rem; }
+    .display-sm { font-size: 1.5rem; }
+  }
 }
